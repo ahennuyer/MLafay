@@ -48,7 +48,7 @@ export default function Account({session} : { session: Session}) {
         username, 
         website, 
         avatar_url
-    }: {
+    } : {
         username: string,
         website: string,
         avatar_url: string
@@ -66,7 +66,6 @@ export default function Account({session} : { session: Session}) {
             }
 
             let { error } = await supabase.from('profiles').upsert(updates)
-
             if (error) { throw error }
         } catch (error) {
             if(error instanceof Error) {
@@ -78,9 +77,9 @@ export default function Account({session} : { session: Session}) {
 
     return(
         <View>
-            <View style={styles.mt40}>
+            <View style={[styles.mt40, styles.avatar]}>
                 <Avatar
-                    size={200}
+                    size={100}
                     url={avatarUrl}
                     onUpload={(url: string) => {
                         setAvatarUrl(url)
@@ -126,7 +125,11 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     mt40: {
-        marginTop: 40
+        marginTop: 60
+    },
+    avatar: {
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
 

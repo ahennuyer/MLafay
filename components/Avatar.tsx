@@ -88,7 +88,7 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
       ) : (
         <View style={[avatarSize, styles.avatar, styles.noImage]} />
       )}
-      <View>
+      <View style={styles.uploadBtn}>
         <Button
           title={uploading ? 'Uploading ...' : 'Upload'}
           onPress={uploadAvatar}
@@ -101,7 +101,7 @@ export default function Avatar({ url, size = 150, onUpload }: Props) {
 
 const styles = StyleSheet.create({
   avatar: {
-    borderRadius: 5,
+    borderRadius: 50,
     overflow: 'hidden',
     maxWidth: '100%',
   },
@@ -114,4 +114,8 @@ const styles = StyleSheet.create({
     border: '1px solid rgb(200, 200, 200)',
     borderRadius: 5,
   },
+  uploadBtn: {
+    alignItems: 'center',
+    marginTop: 15
+  }
 })
