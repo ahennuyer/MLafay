@@ -1,4 +1,4 @@
-import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import { Button, Input } from 'react-native-elements';
 import React, { useState } from 'react';
 
