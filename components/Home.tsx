@@ -2,18 +2,15 @@ import 'react-native-url-polyfill/auto';
 
 import { useEffect, useState } from 'react';
 
-import Home from './components/Home';
-import { NavigationContainer } from '@react-navigation/native';
-import Reset from './components/Reset';
+import Account from './Account';
+import Auth from './Auth';
 import { Session } from '@supabase/supabase-js';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { supabase } from './libs/supabase';
+import { supabase } from '../libs/supabase';
 
 export default function App() {
 	const [ session, setSession ] = useState<Session | null>(null);
-	const Stack = createNativeStackNavigator();
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setSession(session);
@@ -25,11 +22,9 @@ export default function App() {
 	}, []);
   
 	return (
-		<NavigationContainer>
-			<Stack.Navigator>
-				<Stack.Screen name="Home" component={Home}/>
-				<Stack.Screen name="Reset" component={Reset} />
-			</Stack.Navigator>
-		</NavigationContainer>
+		<View>
+      	    {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
+			<StatusBar style="auto" />
+		</View>
 	);
 }
