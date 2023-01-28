@@ -25,10 +25,6 @@ export default function App() {
 	}, []);
   
 	return (
-		// <View>
-		// 	<Home />
-		// 	<StatusBar style="auto" />
-		// </View>
 		<NavigationContainer>
 			<Stack.Navigator>
 				<Stack.Screen name="Home" component={Home}/>
