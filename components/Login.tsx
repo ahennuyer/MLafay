@@ -1,18 +1,19 @@
-import { Alert, Pressable, StyleSheet, View } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { Alert, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Button, Input, Text } from 'react-native-elements';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
 
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { supabase } from '../libs/supabase';
 import { useNavigation } from '@react-navigation/native';
+import  { useState } from 'react';
 import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 
-export default function Auth() {
+export default function Login() {
 	const navigation = useNavigation();
 	const [ email, setEmail ] = useState('');
 	const [ password, setPassword ] = useState('');
 	const [ loading, setLoading ] = useState(false);
-	const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
+	const { passwordVisibility, eye, handlePasswordVisibility } = useTogglePasswordVisibility();
 
 	async function signInWithEmail() {
 		setLoading(false);
@@ -54,7 +55,7 @@ export default function Auth() {
 					leftIcon={<FontAwesome name="lock" size={25} />}
 					rightIcon={
 						<Pressable onPress={handlePasswordVisibility}>
-							<MaterialCommunityIcons name={rightIcon} size={22} color="#232323" />
+							<MaterialCommunityIcons name={eye} size={22} color="#232323" />
 						</Pressable>
 					}
 					onChangeText={(text) => setPassword(text)}
@@ -71,13 +72,14 @@ export default function Auth() {
 				<Button type="outline" title="Sign Up" disabled={loading} onPress={() => signUpWithEmail()} />
 			</View>
 			<View style={styles.forgetPwd}>
-				<Button
-					type="outline"
-					buttonStyle={styles.forgetPwdBtn}
-					title="Forget Password ?"
-					titleStyle={styles.titleBtnPwd}
-					onPress={() => navigation.navigate('Reset')}
-				/>
+				<TouchableOpacity 
+					onPress={() => { 
+						navigation.navigate("ForgetPassword" as never); 
+					}}>
+					<Text style={styles.textForgetPwd}>
+						Forget Password ?
+					</Text>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	mt250: {
-		marginTop: 250
+		marginTop: 200
 	},
 	btnSignIn: {
 		width: '50%',
@@ -113,8 +115,14 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	forgetPwd: {
-		paddingTop: 10,
-		alignSelf: 'center'
+		flexDirection: "row",
+		alignItems: "center",
+		marginTop: 10,
+		justifyContent: "center",
+	},
+	textForgetPwd: {
+		color: "blue",
+		fontWeight: "800"
 	},
 	forgetPwdBtn: {
 		borderColor: 'transparent'
