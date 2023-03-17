@@ -6,19 +6,25 @@ import { useEffect, useState } from 'react';
 
 import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
-import { Session } from '@supabase/supabase-js';
 import { supabase } from '../libs/supabase';
-import { useNavigation } from '@react-navigation/native';
+
+const extractToken = (url: string) => {
+	const match = url.match(/access_token=(.*?)(&|$)/);
+	if (match) {
+		return match[1];
+	}
+	return null;
+};
 
 export default function ForgetPassword({ navigation }: any) {
 	const [ email, setEmail ] = useState('');
 	const [ loading, setLoading ] = useState(false);
-	
+
 	async function forget() {
 		try {
 			setLoading(true);
 			const response = await supabase.auth.resetPasswordForEmail(email, {
-				// TODO redirect
+				redirectTo: 'exp://192.168.1.16:19000/--/newpassword'
 			});
 			if (response.error) {
 				Alert.alert('Erreur');
@@ -33,17 +39,22 @@ export default function ForgetPassword({ navigation }: any) {
 	}
 
 	useEffect(() => {
-		function extractTokenFromURL(url: any) {
-			console.log('url', url);
-
-			const params = new URL(url).searchParams;
-			return params.get('token');
+		async function handleInitialUrl() {
+			const initialUrl = await Linking.getInitialURL();
+			console.log('URL Initiale: ', initialUrl);
+			if (initialUrl) {
+				const token = extractToken(initialUrl);
+				if (token) {
+					console.log('Token:', token);
+					navigation.navigate('NewPassword', { token });
+				}
+			}
 		}
+		handleInitialUrl();
 		const subscription = Linking.addEventListener('url', (event) => {
-			console.log('url2', event);
-			const { url } = event;
-			const token = extractTokenFromURL(url);
+			const token = extractToken(event.url);
 			if (token) {
+				console.log('Token:', token);
 				navigation.navigate('NewPassword', { token });
 			}
 		});
