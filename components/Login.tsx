@@ -2,7 +2,6 @@ import { Alert, Pressable, StyleSheet, TouchableOpacity, View } from 'react-nati
 import { Button, Input, Text } from 'react-native-elements';
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { supabase } from '../libs/supabase';
 import { useNavigation } from '@react-navigation/native';
 import  { useState } from 'react';
@@ -65,7 +64,7 @@ export default function Login() {
 					autoCapitalize={'none'}
 				/>
 			</View>
-			<View style={[ styles.btnSignIn ]}>
+			<View style={styles.btnSignIn}>
 				<Button title="Sign In" disabled={loading} onPress={() => signInWithEmail()} />
 			</View>
 			<View style={styles.btnSignUp}>

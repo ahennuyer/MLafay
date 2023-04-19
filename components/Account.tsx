@@ -112,10 +112,6 @@ export default function Account({session} : { session: Session}) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 40,
-        padding: 12
-    },
     verticallySpaced: {
         paddingTop: 4,
         paddingBottom: 4,
@@ -129,8 +125,8 @@ const styles = StyleSheet.create({
     },
     avatar: {
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     }
-})
+});
 
 

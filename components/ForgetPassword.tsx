@@ -20,7 +20,7 @@ export default function ForgetPassword({ navigation }: any) {
 	const [ email, setEmail ] = useState('');
 	const [ loading, setLoading ] = useState(false);
 
-	async function forget() {
+	async function handleForget() {
 		try {
 			setLoading(true);
 			const response = await supabase.auth.resetPasswordForEmail(email, {
@@ -45,7 +45,6 @@ export default function ForgetPassword({ navigation }: any) {
 			if (initialUrl) {
 				const token = extractToken(initialUrl);
 				if (token) {
-					console.log('Token:', token);
 					navigation.navigate('NewPassword', { token });
 				}
 			}
@@ -54,7 +53,6 @@ export default function ForgetPassword({ navigation }: any) {
 		const subscription = Linking.addEventListener('url', (event) => {
 			const token = extractToken(event.url);
 			if (token) {
-				console.log('Token:', token);
 				navigation.navigate('NewPassword', { token });
 			}
 		});
@@ -80,9 +78,7 @@ export default function ForgetPassword({ navigation }: any) {
 					<Button
 						title={loading ? 'Loading' : 'Send email'}
 						disabled={loading}
-						onPress={() => {
-							forget();
-						}}
+						onPress={() => { handleForget();}}
 					/>
 				</TouchableOpacity>
 			</View>
@@ -100,6 +96,5 @@ const styles = StyleSheet.create({
 	inputReset: {
 		width: '90%',
 		alignSelf: 'center'
-	},
-	btnReset: {}
+	}
 });
