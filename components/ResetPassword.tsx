@@ -10,12 +10,10 @@ export default function ResetPassword(event: any) {
 	const [ success, setSuccess ] = useState(false);
 	const [ loading, setLoading ] = useState(false);
 
-	console.log('Event', event.route.params.token);
 
 	async function handleResetPassword() {
 		const token = event.route.params.token;
 		const data = supabase.auth.getUser(token);
-		console.log('Data:', data);
 		if (!data) {
 			setError('Vous devez être connecté pour mettre à jour votre mot de passe.');
 			return;
